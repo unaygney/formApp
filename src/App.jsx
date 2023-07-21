@@ -1,35 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect ,useContext } from "react";
 import "./App.css";
 import TaskCreate from "./components/TaskCreate";
 import TaskList from "./components/TaskList";
-import axios from "axios";
+import TaskContext from "./context/Task";
+
 
 function App() {
-  const [tasks, setTasks] = useState([]);
-
-  
-
-  const createTask = async (title, desc) => {
-    const response = await axios.post("http://localhost:5170/tasks", {
-      title,
-      desc,
-    });
-    const createdTasks = [...tasks, response.data];
-    setTasks(createdTasks);
-  };
-  const deleteTask =  async(id) => {
-    const response = await axios.delete(`http://localhost:5170/tasks/${id}`)
-    const tasksAfterDeleting = tasks.filter((task) => {
-      return task.id !== id;
-    });
-
-    setTasks(tasksAfterDeleting);
-  };
-  const fetchData = async () => {
-    const response = await axios.get('http://localhost:5170/tasks')
-    setTasks(response.data)
-  }
-
+ 
+  const {fetchData} = useContext(TaskContext);
 
   useEffect(() => {
     fetchData()
@@ -39,9 +17,9 @@ function App() {
 
   return (
     <div>
-      <TaskCreate onCreate={createTask} />
+      <TaskCreate/>
       <h2>Tasks</h2>
-      <TaskList tasks={tasks} onDelete={deleteTask} />
+      <TaskList/>
     </div>
   );
 }

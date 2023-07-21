@@ -1,6 +1,12 @@
-function TaskShow({task , onDelete}) {
+import { useContext } from "react";
+import TaskContext from "../context/Task";
+
+function TaskShow({task}) {
+
+const { deleteTask} = useContext(TaskContext)
+
 const handleDeleteClick = () => {
-     onDelete(task.id)
+     deleteTask(task.id)
 }
     return ( 
         <div className="task-container">
@@ -13,4 +19,4 @@ const handleDeleteClick = () => {
      );
 }
 
-export default TaskShow;
+export default TaskShow
